@@ -2,12 +2,17 @@
 import { cn } from '@/lib/utils'
 
 const props = defineProps({
-  class: String,
+  class: {
+    type: String,
+    default: '',
+  },
 })
 </script>
 
 <template>
-  <div :class="cn('text-sm [&_p]:leading-relaxed', props.class)">
+  <div
+    :class="cn('flex flex-col space-y-2 text-center sm:text-left', props.class)"
+  >
     <slot />
   </div>
 </template>
