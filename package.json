@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "@radix-icons/vue": "^1.0.0",
+    "@vueuse/core": "^10.4.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "lucide-vue-next": "^0.279.0",
     "path": "^0.12.7",
     "pinia": "^2.1.6",
+    "radix-vue": "^0.4.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
     "url": "^0.11.3",
