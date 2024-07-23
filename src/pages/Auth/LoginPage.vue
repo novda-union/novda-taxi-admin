@@ -9,6 +9,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import NovdaAdmin from '@/assets/novda-admin.svg'
 import { defaultInstance } from '@/http'
 import { toast } from 'vue-sonner'
+
 const user = ref<{
 	oneId: string
 	password: string
@@ -18,8 +19,10 @@ const user = ref<{
 	password: '',
 	emergencyPassword: '',
 })
+
 const adminExists = ref<boolean | null>()
 const showPass = ref<boolean>(false)
+
 async function checkForAdmins() {
 	try {
 		const response = await defaultInstance.get('/check-admins')
@@ -41,6 +44,7 @@ async function checkForAdmins() {
 		toast(error.message || error.response.data.msg || 'Server yoki internetda xatolik')
 	}
 }
+
 onMounted(async () => {
 	await checkForAdmins()
 })
@@ -103,7 +107,7 @@ onMounted(async () => {
 				<Label class="ml-2 cursor-pointer" for="showPass">Parolni ko'rsatish</Label>
 			</div>
 			<div class="btns space-x-4 mt-6">
-				<Button variant="outline" type="reset">Tozalash</Button>
+				<Button variant="outline" class="transitiona-all" type="reset">Tozalash</Button>
 				<Button v-if="adminExists" type="submit">Kirish</Button>
 				<Button v-else-if="adminExists === false" type="submit">Ro'yxatdan o'tish</Button>
 			</div>
