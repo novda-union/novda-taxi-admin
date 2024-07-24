@@ -5,7 +5,7 @@ import { Toaster } from 'vue-sonner'
 
 <template>
 	<div class="sub-app">
-		<Toaster class="my-toast" />
+		<Toaster class="my-toast" position="" />
 		<RouterView></RouterView>
 	</div>
 </template>

@@ -3,6 +3,7 @@ import Cookie from 'js-cookie'
 import { config } from '@/config'
 import { ref } from 'vue'
 import { useLoading } from '@/stores/loading'
+import { toast } from 'vue-sonner'
 
 const token = ref('')
 
@@ -45,6 +46,10 @@ defaultInstance.interceptors.response.use(
 		// Handle response success
 		const loadingStore = useLoading()
 		await loadingStore.setLoading(false)
+
+		if (!response) {
+			toast.error('Internet yoki server bilan aloqa mavjud emas!')
+		}
 		return response
 	},
 	async function (error) {

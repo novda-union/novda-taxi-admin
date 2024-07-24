@@ -9,16 +9,14 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import NovdaAdmin from '@/assets/novda-admin.svg'
 import { defaultInstance } from '@/http'
 import { toast } from 'vue-sonner'
+import { useAuth } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
+import { AxiosError, isAxiosError } from 'axios'
+import { useNotification } from '@/composables/useNotification'
 
-const user = ref<{
-	oneId: string
-	password: string
-	emergencyPassword?: string
-}>({
-	oneId: '',
-	password: '',
-	emergencyPassword: '',
-})
+const { notify } = useNotification()
+const authStore = useAuth()
+const { admin } = storeToRefs(authStore)
 
 const adminExists = ref<boolean | null>()
 const showPass = ref<boolean>(false)
@@ -27,11 +25,6 @@ async function checkForAdmins() {
 	try {
 		const response = await defaultInstance.get('/check-admins')
 
-		if (!response) {
-			toast.error("Server yoki internet bilan aloqa yo'q")
-			return
-		}
-
 		if (!response.data.count) {
 			adminExists.value = false
 		} else {
@@ -39,9 +32,23 @@ async function checkForAdmins() {
 		}
 
 		return
-	} catch (error: any) {
-		console.log(error)
-		toast(error.message || error.response.data.msg || 'Server yoki internetda xatolik')
+	} catch (error: Error | AxiosError | any) {
+		if (isAxiosError(error)) {
+			if (error.code === 'ERR_NETWORK') {
+				await notify({
+					typeToast: 'error',
+					message: 'Server yoki internet bilan aloqa mavjud emas!',
+				})
+				return
+			}
+			return
+		}
+
+		await notify({
+			typeToast: 'error',
+			message:
+				error.message || error.response.data.msg || 'Server yoki internetda xatolik yuzaga keldi!',
+		})
 	}
 }
 
@@ -65,7 +72,7 @@ onMounted(async () => {
 					id="oneId"
 					name="oneId"
 					type="text"
-					v-model:model-value="user.oneId"
+					v-model:model-value="admin.oneId"
 					required
 				/>
 			</div>
@@ -76,7 +83,7 @@ onMounted(async () => {
 					id="password"
 					name="password"
 					:type="showPass ? 'text' : 'password'"
-					v-model:model-value="user.password"
+					v-model:model-value="admin.password"
 					required
 				/>
 			</div>
@@ -99,7 +106,7 @@ onMounted(async () => {
 					id="emergencyPassword"
 					name="emergencyPassword"
 					type="password"
-					v-model:model-value="user.emergencyPassword"
+					v-model:model-value="admin.emergencyPassword"
 				/>
 			</div>
 			<div class="form-group flex items-center mb-6">
