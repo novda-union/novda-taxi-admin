@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { defaultInstance } from '@/http'
 import Cookies from 'js-cookie'
-import { toast } from 'vue-sonner'
+import { useNotification } from '@/composables/useNotification'
 
 interface Admin {
 	id?: string
@@ -12,6 +12,8 @@ interface Admin {
 }
 
 export const useAuth = defineStore('auth-store', () => {
+	const { notify } = useNotification()
+
 	const admin = ref<Admin>({
 		id: '',
 		oneId: '',

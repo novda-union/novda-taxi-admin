@@ -1,6 +1,6 @@
 import { toast } from 'vue-sonner'
 import Notification from '@/assets/notif-admin-panel.mp3'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const notifAudio = new Audio(Notification)
 
@@ -13,7 +13,6 @@ export function useNotification() {
 
 	async function notify(options: { typeToast: TypesToast; message: string; description?: string }) {
 		notifAudio.play()
-
 		switch (options.typeToast) {
 			case 'warning':
 				toast.warning(options.message)
