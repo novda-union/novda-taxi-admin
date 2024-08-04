@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
@@ -12,10 +12,14 @@ import { useAuth } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 import { AxiosError, isAxiosError } from 'axios'
 import { useNotification } from '@/composables/useNotification'
+import { vMaska } from 'maska/vue'
+import { useLoading } from '@/stores/loading'
 
 const { notify } = useNotification()
+const loadingStore = useLoading()
 const authStore = useAuth()
 const { admin } = storeToRefs(authStore)
+const { loading } = storeToRefs(loadingStore)
 
 const adminExists = ref<boolean | null>()
 const showPass = ref<boolean>(false)
@@ -51,6 +55,18 @@ async function checkForAdmins() {
 	}
 }
 
+const actionButtonDisabled = computed(() => {
+	if (loading.value) {
+		return true
+	}
+
+	if (admin.value.password.length >= 8 && admin.value.oneId.length === 9) {
+		return false
+	} else {
+		return true
+	}
+})
+
 onMounted(async () => {
 	await checkForAdmins()
 })
@@ -67,10 +83,12 @@ onMounted(async () => {
 			<div class="form-group mb-6">
 				<Label class="mb-2" for="oneId">One Id</Label>
 				<Input
+					v-maska="'A@#######'"
 					autocomplete="off"
 					id="oneId"
 					name="oneId"
 					type="text"
+					placeholder="OneId har doim 'A' harfidan boshlanishi kerak"
 					v-model:model-value="admin.oneId"
 					required
 				/>
@@ -83,6 +101,7 @@ onMounted(async () => {
 					name="password"
 					:type="showPass ? 'text' : 'password'"
 					v-model:model-value="admin.password"
+					placeholder="Kamida 8 ta belgi"
 					required
 				/>
 			</div>
@@ -106,6 +125,7 @@ onMounted(async () => {
 					name="emergencyPassword"
 					type="password"
 					v-model:model-value="admin.emergencyPassword"
+					placeholder="Tegma, super admin uchun"
 				/>
 			</div>
 			<div class="form-group flex items-center mb-6">
@@ -114,8 +134,20 @@ onMounted(async () => {
 			</div>
 			<div class="btns space-x-4 mt-6">
 				<Button variant="outline" class="transitiona-all" type="reset">Tozalash</Button>
-				<Button v-if="adminExists" type="submit">Kirish</Button>
-				<Button v-else-if="adminExists === false" type="submit">Ro'yxatdan o'tish</Button>
+				<Button
+					@click="authStore.auth"
+					v-if="adminExists"
+					type="submit"
+					:disabled="actionButtonDisabled"
+					>Kirish</Button
+				>
+				<Button
+					@click="authStore.auth"
+					:disabled="actionButtonDisabled"
+					v-else-if="adminExists === false"
+					type="submit"
+					>Ro'yxatdan o'tish</Button
+				>
 			</div>
 		</form>
 		<footer class="text-sm font-bold">@ telegram_bot</footer>

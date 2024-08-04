@@ -1,6 +1,6 @@
 import { toast } from 'vue-sonner'
 import Notification from '@/assets/notif-admin-panel.mp3'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 
 const notifAudio = new Audio(Notification)
 

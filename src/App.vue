@@ -6,26 +6,21 @@ import { toast } from 'vue-sonner'
 import Silent from '@/assets/silent.mp3'
 
 const audioButton = ref<HTMLButtonElement | null>(null)
-const hasAudioPermission = ref(false)
 
 const getAudioPermission = async () => {
-	// Play a silent audio to get the audio permission
 	const silentAudio = new Audio(Silent)
 	try {
 		await silentAudio.play()
 		silentAudio.pause()
-		// Now you have audio permission
-		hasAudioPermission.value = true
 	} catch (error: any) {
 		toast(error.message || error)
 		console.error('Audio playback failed:', error)
 	}
 }
-
 </script>
 
 <template>
-	<div class="sub-app">
+	<div class="sub-app overflow-y-hidden">
 		<button ref="audioButton" @click="getAudioPermission" style="display: none">Initialize</button>
 		<Toaster class="my-toast" position="bottom-right" />
 		<RouterView></RouterView>
