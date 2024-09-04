@@ -22,6 +22,31 @@ const router = createRouter({
 					name: 'default-home-page',
 					component: () => import('@/pages/Default/HomePage.vue'),
 				},
+				{
+					path: '/drivers/all',
+					component: () => import('@/pages/Default/drivers/AllPage.vue'),
+					meta: { title: 'All Drivers' },
+				},
+				{
+					path: '/drivers/blocked',
+					component: () => import('@/pages/Default/drivers/BlockedPage.vue'),
+					meta: { title: 'Blocked Drivers' },
+				},
+				{
+					path: '/drivers/top-expensive',
+					component: () => import('@/pages/Default/drivers/TopExpensivePage.vue'),
+					meta: { title: 'Top Expensive Drivers' },
+				},
+				{
+					path: '/drivers/top-active',
+					component: () => import('@/pages/Default/drivers/TopActivePage.vue'),
+					meta: { title: 'Top Active Drivers' },
+				},
+				{
+					path: '/drivers/control',
+					component: () => import('@/pages/Default/drivers/ControlPage.vue'),
+					meta: { title: 'Driver Control' },
+				},
 			],
 		},
 		{
