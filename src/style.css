@@ -112,3 +112,8 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+#nprogress .bar {
+  background: #000; /* Change to your desired color */
+  height: 4px;
+}

@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
 import Cookie from 'js-cookie'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
 	history: createWebHistory(),
@@ -46,6 +46,11 @@ const router = createRouter({
 					path: '/drivers/control',
 					component: () => import('@/pages/Default/drivers/ControlPage.vue'),
 					meta: { title: 'Driver Control' },
+				},
+				{
+					path: '/drivers/search',
+					component: () => import('@/pages/Default/drivers/SearchPage.vue'),
+					meta: { title: 'Driver Search' },
 				},
 			],
 		},

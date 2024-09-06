@@ -14,7 +14,7 @@ onMounted(async () => {
 <template>
 	<div class="default-layout flex overflow-y-hidden max-h-screen">
 		<Sidebar class="z-50" />
-		<main class="main-content overflow-y-scroll w-full py-[20px]">
+		<main class="main-content overflow-y-scroll w-full py-[20px] sm:px-4 px-2">
 			<RouterView></RouterView>
 		</main>
 	</div>

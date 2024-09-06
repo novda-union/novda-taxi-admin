@@ -24,6 +24,10 @@ const driversLinks = [
 		name: 'Eng aktiv haydovchilar',
 		path: '/drivers/top-active',
 	},
+	{
+		name: 'Haydovchilarni izlash',
+		path: '/drivers/search',
+	},
 ]
 
 const clientsLinks = [
